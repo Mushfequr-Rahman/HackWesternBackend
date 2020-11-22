@@ -35,11 +35,18 @@ app.get('/python', (req, res) => {
     })
 })
 */
-app.get('/python', (req, res) => {
+app.post('/classify', (req, res) => {
+    /* TODO: 1) Parse the body for the main string
+             2) Classify the string 
+             3) Send the result back */
 
     var dataToSend;
+    console.log("Request", req.body.value);
+    let string = req.body.value;
+
+
     // spawn new child process to call the python script
-    const python = spawn('python', ['run_model.py', 'Great my anxiety is improving']);
+    const python = spawn('python', ['run_model.py', string]);
     // collect data from script
     python.stdout.on('data', function(data) {
         console.log('Pipe data from python script ...');
@@ -48,9 +55,10 @@ app.get('/python', (req, res) => {
     // in close event we are sure that stream from child process is closed
     python.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
-        console.log(dataToSend);
-        // send data to browser
-        res.send(dataToSend)
+        console.log(JSON.parse(dataToSend));
+
+        // send data to browser 
+        res.json(JSON.parse(dataToSend))
     });
 
 })

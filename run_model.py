@@ -17,7 +17,10 @@ def classifysentence(sentence,emdict):
                     count[key] += 1
             else: 
                 count[key] = 1
-    max_key = max(count)
+    if(len(count)!=0):
+        max_key = max(count)
+    else:
+        max_key = "all good"
     return max_key
 
 
@@ -53,8 +56,7 @@ def main(argv):
 
     train_features = vectorizer.fit_transform(x)
     # print(y[0])
-    emotional_keywords = ['anxiety', 'depression',
-                          'sad', 'mad', 'anger', 'happy']
+    emotional_keywords = ['anxiety', 'depression', 'depressed','sad', 'mad', 'anger', 'happy']
 
     model = load('sentiment_analyzer.joblib')
 
@@ -66,7 +68,7 @@ def main(argv):
     res = classifysentence(sentence,emotional_keywords)
 
     output = [prediction[0],res] 
-    print(output)
+    print('{"Score": %d, "emotion": "%s"}' %(prediction[0], res))
     return output
 
 if __name__ == "__main__":
