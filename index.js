@@ -56,9 +56,21 @@ app.get('/python', (req, res) => {
 })
 
 app.get('/ping', (req, res) => {
-    console.log('Got pinged');
-    return res.send('pong');
+    let resultData = { result: "pong" }
+    console.log('Got pinged sending Data: ', resultData);
+    res.json([resultData]);
 })
+
+app.get("/showtimes", (req, res, next) => {
+    res.json([{ id: 'tt0059742', detailsURL: '/movieDetails?id=tt0059742', title: 'The Sound of Music', times: ['7:15pm', '8:40pm'] },
+        { id: 'tt0059113', detailsURL: '/movieDetails?id=tt0059113', title: 'Doctor Zhivago', times: ['7:35pm', '8:10pm', '9:05pm'] },
+        { id: 'tt0059243', detailsURL: '/movieDetails?id=tt0059243', title: 'The Great Race', times: ['6:45pm', '9:15pm'] },
+        { id: 'tt0059578', detailsURL: '/movieDetails?id=tt0059578', title: 'For a Few Dollars More', times: ['8:05pm', '9:40pm'] },
+        { id: 'tt0059661', detailsURL: '/movieDetails?id=tt0059661', title: 'The Rounders', times: ['4:10pm'] },
+        { id: 'tt0059800', detailsURL: '/movieDetails?id=tt0059800', title: 'Thunderball', times: ['8:00pm'] }
+    ]);
+})
+
 
 app.set('views', __dirname + '/static/public/views');
 app.set('view engine', 'pug');
